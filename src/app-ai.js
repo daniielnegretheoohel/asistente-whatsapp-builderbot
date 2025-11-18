@@ -3,6 +3,7 @@ import { createBot, createProvider, createFlow, addKeyword } from '@builderbot/b
 import { JsonFileDB as Database } from '@builderbot/database-json'
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import { chatWithAssistant, verifyOpenAIConfig, getStats } from './openai-service.js'
+import qrcode from 'qrcode-terminal'
 
 const PORT = process.env.PORT ?? 3008
 
@@ -73,6 +74,40 @@ const main = async () => {
 
     // Crear provider (WhatsApp con Baileys)
     const adapterProvider = createProvider(Provider)
+
+    // Escuchar evento de QR
+    adapterProvider.on('qr', (qr) => {
+        console.log('')
+        console.log('========================================')
+        console.log('📱 ESCANEA ESTE CÓDIGO QR CON WHATSAPP:')
+        console.log('========================================')
+        console.log('')
+        qrcode.generate(qr, { small: true })
+        console.log('')
+        console.log('========================================')
+        console.log('📲 Pasos:')
+        console.log('1. Abre WhatsApp en tu teléfono')
+        console.log('2. Ve a: Configuración > Dispositivos vinculados')
+        console.log('3. Toca "Vincular dispositivo"')
+        console.log('4. Escanea el código QR de arriba')
+        console.log('========================================')
+        console.log('')
+    })
+
+    // Escuchar evento de conexión exitosa
+    adapterProvider.on('ready', () => {
+        console.log('')
+        console.log('✅✅✅ WHATSAPP CONECTADO EXITOSAMENTE ✅✅✅')
+        console.log('')
+    })
+
+    // Escuchar errores de autenticación
+    adapterProvider.on('auth_failure', (error) => {
+        console.error('')
+        console.error('❌ Error de autenticación:', error)
+        console.error('⚠️  Esperando nuevo código QR...')
+        console.error('')
+    })
 
     // Crear base de datos
     const adapterDB = new Database({ filename: 'db.json' })
