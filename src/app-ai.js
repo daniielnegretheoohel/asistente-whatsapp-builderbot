@@ -52,6 +52,43 @@ const main = async () => {
     console.log('🚀 Iniciando BuilderBot con OpenAI Assistant...')
     console.log('')
 
+    // Forzar limpieza de sesión si la variable está activada
+    if (process.env.CLEAR_SESSION === 'true') {
+        console.log('🗑️  CLEAR_SESSION=true detectado')
+        console.log('🧹 Limpiando TODAS las sesiones anteriores...')
+
+        try {
+            const fs = await import('fs')
+            const path = await import('path')
+
+            const patterns = [
+                'whatsapp_bot_sessions',
+                'baileys_store_whatsapp_bot',
+                'auth_info_baileys',
+                'session_',
+                'creds.json',
+                '.baileys_store_whatsapp_bot'
+            ]
+
+            for (const pattern of patterns) {
+                const fullPath = path.join(process.cwd(), pattern)
+                if (fs.existsSync(fullPath)) {
+                    console.log(`   🗑️ Eliminando: ${pattern}`)
+                    if (fs.statSync(fullPath).isDirectory()) {
+                        fs.rmSync(fullPath, { recursive: true, force: true })
+                    } else {
+                        fs.unlinkSync(fullPath)
+                    }
+                }
+            }
+
+            console.log('✅ Sesiones eliminadas. Generando QR nuevo...')
+            console.log('')
+        } catch (err) {
+            console.error('⚠️  Error limpiando sesión:', err.message)
+        }
+    }
+
     // Verificar configuración antes de iniciar
     if (!verifyOpenAIConfig()) {
         console.error('')
