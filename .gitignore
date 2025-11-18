@@ -2,9 +2,17 @@ dist/*
 node_modules
 .env
 
+# Baileys session files
 *_sessions
 *tokens
 .wwebjs*
+baileys_store*
+auth_info_baileys/
+session_*
+*.db
+*.json.bak
 
+# Logs
 *.log
 *qr.png
+baileys.log

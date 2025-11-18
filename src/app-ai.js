@@ -72,12 +72,17 @@ const main = async () => {
     // Crear flujos
     const adapterFlow = createFlow([aiFlow, adminFlow])
 
-    // Crear provider (WhatsApp con Baileys)
+    // Crear provider (WhatsApp con Baileys) con configuración optimizada
     const adapterProvider = createProvider(Provider, {
         name: 'whatsapp_bot',
         gifPlayback: false,
         usePairingCode: false,
-        browser: ['BuilderBot', 'Chrome', '1.0.0']
+        browser: ['BuilderBot', 'Chrome', '1.0.0'],
+        timeoutMs: 60000,
+        syncFullHistory: false,
+        markOnlineOnConnect: true,
+        phoneNumber: '',
+        printQRInTerminal: true
     })
 
     // Escuchar evento de QR
@@ -107,11 +112,28 @@ const main = async () => {
     })
 
     // Escuchar errores de autenticación
-    adapterProvider.on('auth_failure', (error) => {
+    adapterProvider.on('auth_failure', async (error) => {
         console.error('')
         console.error('❌ Error de autenticación:', error)
-        console.error('⚠️  Esperando nuevo código QR...')
+        console.error('⚠️  Limpiando sesión corrupta y reiniciando...')
         console.error('')
+
+        // Forzar limpieza de sesión
+        try {
+            const fs = await import('fs')
+            const path = await import('path')
+            const sessionsDir = path.join(process.cwd(), 'whatsapp_bot_sessions')
+
+            if (fs.existsSync(sessionsDir)) {
+                console.log('🗑️  Eliminando carpeta de sesiones...')
+                fs.rmSync(sessionsDir, { recursive: true, force: true })
+            }
+        } catch (err) {
+            console.error('Error limpiando sesión:', err.message)
+        }
+
+        console.log('🔄 Reinicia el servicio para generar un nuevo QR')
+        console.log('')
     })
 
     // Crear base de datos
