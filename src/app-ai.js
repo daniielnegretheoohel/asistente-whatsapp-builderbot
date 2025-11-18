@@ -73,7 +73,12 @@ const main = async () => {
     const adapterFlow = createFlow([aiFlow, adminFlow])
 
     // Crear provider (WhatsApp con Baileys)
-    const adapterProvider = createProvider(Provider)
+    const adapterProvider = createProvider(Provider, {
+        name: 'whatsapp_bot',
+        gifPlayback: false,
+        usePairingCode: false,
+        browser: ['BuilderBot', 'Chrome', '1.0.0']
+    })
 
     // Escuchar evento de QR
     adapterProvider.on('qr', (qr) => {

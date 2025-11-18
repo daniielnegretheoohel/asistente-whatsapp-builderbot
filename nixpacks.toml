@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs", "python3", "gcc", "g++", "make", "cairo", "pango", "libjpeg"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm rebuild sharp", "npm rebuild jimp"]
+
+[start]
+cmd = "node ./src/app-ai.js"
