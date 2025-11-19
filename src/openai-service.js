@@ -43,7 +43,11 @@ export const chatWithAssistant = async (userId, userMessage) => {
         console.log(`🏃 Run creado: ${run.id} para thread ${threadId}`)
 
         // Esperar a que el asistente complete la respuesta
-        let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id)
+        console.log(`🔍 Antes de retrieve - threadId: ${threadId}, run.id: ${run.id}`)
+        let runStatus = await openai.beta.threads.runs.retrieve(
+            threadId,
+            run.id
+        )
 
         console.log(`📊 Estado inicial del run: ${runStatus.status}`)
 
@@ -53,7 +57,10 @@ export const chatWithAssistant = async (userId, userMessage) => {
 
         while (runStatus.status !== 'completed' && attempts < maxAttempts) {
             await new Promise(resolve => setTimeout(resolve, 1000))
-            runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id)
+            runStatus = await openai.beta.threads.runs.retrieve(
+                threadId,
+                run.id
+            )
             attempts++
 
             if (runStatus.status === 'failed') {
