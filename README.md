@@ -1,160 +1,88 @@
-# 🤖 Asistente Inteligente con BuilderBot + OpenAI
+# 🤖 Bot de WhatsApp con OpenAI + Twilio
 
-Chatbot de WhatsApp integrado con OpenAI Assistants, construido sobre el framework BuilderBot.
+Chatbot inteligente de WhatsApp potenciado por OpenAI GPT-4o mini y Twilio WhatsApp Business API.
 
-## 📋 Tabla de Contenidos
+## 🌟 Características
 
-- [Descripción](#descripción)
-- [Características](#características)
-- [Requisitos](#requisitos)
-- [Instalación](#instalación)
-- [Configuración](#configuración)
-- [Uso](#uso)
-- [Despliegue](#despliegue)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Historial de Cambios](#historial-de-cambios)
-- [Decisiones Técnicas](#decisiones-técnicas)
-
----
-
-## 🎯 Descripción
-
-Este proyecto implementa un asistente de WhatsApp inteligente que utiliza:
-- **BuilderBot**: Framework open-source para chatbots multi-canal
-- **OpenAI Assistants**: IA conversacional con memoria y contexto
-- **Baileys**: Provider de WhatsApp sin necesidad de API oficial
-
-## ✨ Características
-
-- ✅ Conversaciones inteligentes con IA
+- ✅ Inteligencia Artificial (GPT-4o mini)
+- ✅ WhatsApp Business API oficial (Twilio)
 - ✅ Memoria conversacional por usuario
-- ✅ Soporte para archivos y documentos
-- ✅ Base de datos vectorial para conocimiento
-- ✅ API REST para integraciones
-- ✅ 100% gratuito y open source
-- ✅ Deploy fácil en Railway/VPS
+- ✅ Disponibilidad 24/7
+- ✅ Hosting en Railway (gratis)
+- ✅ Escalable y production-ready
 
-## 📦 Requisitos
+## 🚀 Estado del Proyecto
 
-- Node.js v18+ (actual: v22.20.0 ✅)
-- npm v10+
-- Cuenta de OpenAI con API Key
-- WhatsApp (personal o Business)
+**Versión**: 2.0 (Twilio)
+**Estado**: ✅ En producción
+**URL**: https://asistente-whatsapp-builderbot-production-387d.up.railway.app
 
-## 🚀 Instalación
+## 📋 Prerrequisitos
 
-### 1. Clonar/Inicializar el proyecto
+- Node.js 18+
+- Cuenta de OpenAI
+- Cuenta de Twilio
+- Cuenta de Railway (para hosting)
 
-El proyecto ya está inicializado con:
+## ⚡ Inicio Rápido
+
+### 1. Instalar dependencias
+
 ```bash
 npm install
 ```
 
 ### 2. Configurar variables de entorno
 
-Copia `.env.example` a `.env` y completa tus credenciales:
+Crea un archivo `.env`:
 
 ```bash
-cp .env.example .env
-```
+# OpenAI
+OPENAI_API_KEY=tu_api_key
+ASSISTANT_ID=tu_assistant_id
 
-Edita `.env`:
-```env
-OPENAI_API_KEY=sk-tu_api_key_real_aqui
-ASSISTANT_ID=asst_tu_assistant_id_aqui
+# Twilio
+TWILIO_ACCOUNT_SID=tu_account_sid
+TWILIO_AUTH_TOKEN=tu_auth_token
+TWILIO_PHONE_NUMBER=whatsapp:+14155238886
+
+# Servidor
 PORT=3008
+PUBLIC_URL=tu_url_publica
 ```
 
-⚠️ **IMPORTANTE**: El archivo `.env` NUNCA debe subirse a Git. Ya está en `.gitignore`.
-
-## ⚙️ Configuración
-
-### Paso 1: Obtener API Key de OpenAI
-
-1. Ve a: https://platform.openai.com/api-keys
-2. Crea una nueva Secret Key
-3. Copia la key (comienza con `sk-...`)
-4. Pégala en `.env` en `OPENAI_API_KEY`
-
-### Paso 2: Crear un Assistant en OpenAI
-
-1. Ve a: https://platform.openai.com/assistants
-2. Haz clic en "Create Assistant"
-3. Configura:
-   - **Name**: Nombre de tu asistente (ej: "Asistente de Ventas")
-   - **Instructions**: Cómo debe comportarse
-     ```
-     Eres un asistente de ventas profesional y amigable.
-     Ayudas a los clientes con información sobre productos,
-     precios y realizar pedidos. Siempre sé cortés y claro.
-     ```
-   - **Model**: `gpt-4-turbo-preview` (recomendado) o `gpt-3.5-turbo` (económico)
-   - **Tools**:
-     - ✅ Code Interpreter (opcional)
-     - ✅ Retrieval (si subirás archivos)
-   - **Files**: Sube PDFs, CSVs, TXT con información que debe conocer
-
-4. Copia el **Assistant ID** (comienza con `asst_...`)
-5. Pégalo en `.env` en `ASSISTANT_ID`
-
-### Paso 3: Instalar dependencias adicionales
+### 3. Iniciar el bot
 
 ```bash
-npm install openai dotenv
+npm run start:twilio
 ```
 
-## 🎮 Uso
+## 📚 Documentación Completa
 
-### Modo Básico (sin IA)
+Para documentación detallada, ver **[INTEGRACION.md](./INTEGRACION.md)**
 
-Para probar el bot con respuestas predefinidas:
-```bash
-npm start
+Este documento incluye:
+- Proceso completo de implementación
+- Configuración paso a paso de todos los servicios
+- Costos detallados por escenarios
+- Troubleshooting
+- Roadmap de próximos pasos
+
+También está disponible **[README_TWILIO.md](./README_TWILIO.md)** con documentación técnica adicional.
+
+## 💰 Costos Estimados
+
+| Conversaciones/mes | Costo Total |
+|--------------------|-------------|
+| 100 | $2-3 USD/mes |
+| 500 | $10-12 USD/mes |
+| 1,000 | $21-23 USD/mes |
+| 5,000 | $105-115 USD/mes |
+
+## 🏗️ Arquitectura
+
 ```
-
-### Modo con IA (OpenAI Assistant)
-
-⚠️ **Nota**: Debido a un problema con la librería `sharp` en el entorno local actual,
-el bot debe ejecutarse en Railway o un VPS. Ver sección [Despliegue](#despliegue).
-
-## 🚀 Despliegue
-
-### Opción A: Railway (Recomendado para empezar)
-
-1. Crea cuenta en: https://railway.app
-2. Instala Railway CLI o usa el dashboard web
-3. Conecta tu repositorio Git
-4. Configura variables de entorno en Railway:
-   - `OPENAI_API_KEY`
-   - `ASSISTANT_ID`
-   - `PORT` (Railway lo asigna automáticamente)
-5. Deploy automático ✅
-
-**Ventajas**:
-- Gratis inicial ($5 crédito)
-- Deploy con 1 clic
-- SSL automático
-- Logs en tiempo real
-
-### Opción B: VPS (Producción profesional)
-
-Proveedores recomendados:
-- DigitalOcean ($6/mes)
-- Linode ($5/mes)
-- Vultr ($2.50-6/mes)
-
-**Pasos**:
-1. Conectar por SSH
-2. Instalar Node.js
-3. Clonar repositorio
-4. Configurar `.env`
-5. Usar PM2 para mantener el proceso activo
-
-```bash
-npm install -g pm2
-pm2 start src/app.js --name "whatsapp-bot"
-pm2 save
-pm2 startup
+WhatsApp Usuario → Twilio API → Railway (Bot) → OpenAI GPT-4o mini → Respuesta
 ```
 
 ## 📁 Estructura del Proyecto
@@ -162,85 +90,85 @@ pm2 startup
 ```
 asistente_builder/
 ├── src/
-│   └── app.js              # Aplicación principal
-├── assets/                 # Recursos (imágenes, archivos)
-├── .env                    # Credenciales (NO en Git)
-├── .env.example            # Plantilla de credenciales
-├── .gitignore              # Archivos ignorados por Git
-├── package.json            # Dependencias del proyecto
-├── Dockerfile              # Para deploy en contenedor
-└── README.md               # Esta documentación
+│   ├── app-ai-twilio.js      # Bot principal ⭐
+│   └── openai-service.js      # Servicio de OpenAI
+├── legacy_baileys/            # Archivos obsoletos (Baileys)
+├── .env                       # Variables de entorno
+├── package.json               # Dependencias
+├── railway.json               # Config de Railway
+├── Dockerfile.twilio          # Docker
+├── INTEGRACION.md            # Documentación completa ⭐
+└── README.md                  # Este archivo
 ```
 
-## 📝 Historial de Cambios
+## 🛠️ Scripts Disponibles
 
-### [2025-11-12] - Configuración Inicial
+```bash
+npm run start:twilio    # Iniciar bot con Twilio
+npm run dev:twilio      # Modo desarrollo
+```
 
-**Agregado**:
-- ✅ Proyecto BuilderBot inicializado con template oficial
-- ✅ Estructura base con provider Baileys + database JSON
-- ✅ Archivo `.env` para manejo seguro de credenciales
-- ✅ Archivo `.env.example` como plantilla
-- ✅ Documentación completa en README.md
+## 🔧 Configuración de Servicios
 
-**Pendiente**:
-- ⏳ Integración con OpenAI Assistant
-- ⏳ Deploy en Railway
-- ⏳ Personalización de flujos conversacionales
+### OpenAI
+1. Crear Assistant en: https://platform.openai.com/assistants
+2. Configurar modelo: **gpt-4o-mini**
+3. Copiar Assistant ID
 
-## 🧠 Decisiones Técnicas
+### Twilio
+1. Crear cuenta: https://www.twilio.com/try-twilio
+2. Activar WhatsApp Sandbox
+3. Configurar webhook: `https://tu-url/webhook` (método POST)
 
-### ¿Por qué BuilderBot?
+### Railway
+1. Conectar repositorio de GitHub
+2. Configurar variables de entorno
+3. Deploy automático
 
-**Ventajas**:
-- ✅ **Open source y gratuito**: Sin costos de licencia
-- ✅ **Control total**: Código y datos son tuyos
-- ✅ **Sin límites**: Escalabilidad ilimitada
-- ✅ **Multi-canal**: WhatsApp, Telegram, web
-- ✅ **Comunidad activa**: Soporte y actualizaciones constantes
+## 📊 Monitoreo
 
-**vs Botpress**:
-- Botpress es más caro ($50-500/mes)
-- BuilderBot es 100% gratuito, solo pagas OpenAI directamente
+- **Railway Logs**: https://railway.app/dashboard
+- **Twilio Debugger**: https://console.twilio.com/us1/monitor/logs/debugger
+- **OpenAI Usage**: https://platform.openai.com/usage
 
-### ¿Por qué Baileys en vez de WhatsApp Business API oficial?
+## 🐛 Troubleshooting
 
-- **Baileys**: Gratis, funciona con WhatsApp personal/business
-- **API Oficial**: $5-50/mes + costos por mensaje
-- **Nota**: Para proyectos enterprise, considerar API oficial
+Ver sección de Troubleshooting en **[INTEGRACION.md](./INTEGRACION.md#troubleshooting)**
 
-### ¿Por qué archivo .env para credenciales?
+## 🔄 Migración a Producción
 
-**Seguridad**:
-- ❌ NUNCA poner API keys en el código
-- ✅ `.env` está en `.gitignore`
-- ✅ Cada desarrollador/entorno tiene sus propias keys
-- ✅ Fácil rotar credenciales sin cambiar código
+Para migrar del Sandbox a un número real de WhatsApp Business:
 
-### Problema con sharp en local
+1. Solicitar número en Twilio Console
+2. Actualizar `TWILIO_PHONE_NUMBER` en Railway
+3. Configurar webhook del número real
+4. ¡Listo!
 
-**Síntoma**: Error `ERR_DLOPEN_FAILED` al iniciar el bot
+## 🤝 Contribuciones
 
-**Causa**: Incompatibilidad de la librería `sharp` (usada por Baileys) con ciertas configuraciones de Linux
+Las contribuciones son bienvenidas. Por favor:
 
-**Solución**:
-- Local: Problema conocido, no crítico para desarrollo
-- Railway/VPS: Funciona perfectamente (entorno controlado)
-- **Decisión**: Desarrollar lógica localmente, probar bot en Railway
+1. Fork el proyecto
+2. Crea una rama (`git checkout -b feature/mejora`)
+3. Commit tus cambios (`git commit -m 'Agregar mejora'`)
+4. Push a la rama (`git push origin feature/mejora`)
+5. Abre un Pull Request
 
-## 🔗 Referencias
+## 📄 Licencia
 
-- [BuilderBot Docs](https://builderbot.app)
-- [OpenAI Platform](https://platform.openai.com)
-- [Tutorial de Leifer Méndez](https://youtube.com/@leifermendez)
-- [Railway Docs](https://docs.railway.app)
+ISC
 
-## 📞 Soporte
+## 👤 Autor
 
-- **BuilderBot Discord**: https://link.codigoencasa.com/DISCORD
-- **OpenAI Community**: https://community.openai.com
+Daniel Negrete
+- GitHub: [@daniielnegretheoohel](https://github.com/daniielnegretheoohel)
+
+## 🙏 Créditos
+
+- [BuilderBot](https://builderbot.app) - Framework de chatbots
+- [OpenAI](https://openai.com) - API de IA
+- [Twilio](https://twilio.com) - WhatsApp Business API
 
 ---
 
-**Última actualización**: 2025-11-12
-**Versión**: 1.0.0 (Setup inicial)
+**Última actualización**: 19 de Noviembre, 2025
