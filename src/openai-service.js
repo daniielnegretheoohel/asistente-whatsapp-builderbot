@@ -33,13 +33,19 @@ export const chatWithAssistant = async (userId, userMessage) => {
             content: userMessage
         })
 
+        console.log(`📝 Mensaje agregado al thread ${threadId}`)
+
         // Ejecutar el asistente
         const run = await openai.beta.threads.runs.create(threadId, {
             assistant_id: process.env.ASSISTANT_ID
         })
 
+        console.log(`🏃 Run creado: ${run.id} para thread ${threadId}`)
+
         // Esperar a que el asistente complete la respuesta
         let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id)
+
+        console.log(`📊 Estado inicial del run: ${runStatus.status}`)
 
         // Polling para esperar la respuesta (máximo 30 segundos)
         let attempts = 0
