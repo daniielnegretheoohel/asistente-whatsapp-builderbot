@@ -8,19 +8,23 @@
     "lint": "eslint . --no-ignore",
     "dev": "npm run lint && nodemon ./src/app.js",
     "dev:ai": "npm run lint && nodemon ./src/app-ai.js",
+    "dev:twilio": "npm run lint && nodemon ./src/app-ai-twilio.js",
     "start": "node ./src/app.js",
-    "start:ai": "node ./src/app-ai.js"
+    "start:ai": "node ./src/app-ai.js",
+    "start:twilio": "node ./src/app-ai-twilio.js"
   },
   "keywords": [],
   "dependencies": {
     "@builderbot/bot": "1.3.2-y.0",
     "@builderbot/database-json": "1.3.2-y.0",
     "@builderbot/provider-baileys": "1.3.2-y.0",
+    "@builderbot/provider-twilio": "^1.3.5",
     "dotenv": "^17.2.3",
     "jimp": "^0.16.13",
     "openai": "^6.8.1",
     "qrcode-terminal": "^0.12.0",
-    "sharp": "^0.34.5"
+    "sharp": "^0.34.5",
+    "twilio": "^5.10.5"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
