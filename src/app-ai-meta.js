@@ -4,7 +4,7 @@ import { JsonFileDB as Database } from '@builderbot/database-json'
 import { MetaProvider as Provider } from '@builderbot/provider-meta'
 import { chatWithAssistant, verifyOpenAIConfig, getStats } from './openai-service.js'
 
-const PORT = process.env.PORT ?? 3009
+const PORT = process.env.PORT ?? 3008
 
 // Flow principal: Maneja TODOS los mensajes con IA
 const aiFlow = addKeyword([''])
