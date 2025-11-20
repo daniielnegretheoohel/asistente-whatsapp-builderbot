@@ -9,15 +9,20 @@
     "dev": "npm run lint && nodemon ./src/app.js",
     "dev:ai": "npm run lint && nodemon ./src/app-ai.js",
     "dev:twilio": "npm run lint && nodemon ./src/app-ai-twilio.js",
+    "dev:meta": "npm run lint && nodemon ./src/app-ai-meta.js",
+    "dev:all": "npm run lint && nodemon ./src/app-ai-all.js",
     "start": "node ./src/app.js",
     "start:ai": "node ./src/app-ai.js",
-    "start:twilio": "node ./src/app-ai-twilio.js"
+    "start:twilio": "node ./src/app-ai-twilio.js",
+    "start:meta": "node ./src/app-ai-meta.js",
+    "start:all": "node ./src/app-ai-all.js"
   },
   "keywords": [],
   "dependencies": {
     "@builderbot/bot": "1.3.2-y.0",
     "@builderbot/database-json": "1.3.2-y.0",
     "@builderbot/provider-baileys": "1.3.2-y.0",
+    "@builderbot/provider-meta": "^1.3.5",
     "@builderbot/provider-twilio": "^1.3.5",
     "dotenv": "^17.2.3",
     "jimp": "^0.16.13",
